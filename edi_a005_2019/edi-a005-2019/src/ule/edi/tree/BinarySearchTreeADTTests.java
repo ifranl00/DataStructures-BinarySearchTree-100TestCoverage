@@ -93,6 +93,7 @@ public class BinarySearchTreeADTTests {
 	 */
 	private BinarySearchTreeADTImpl<Integer> TV1 = null;
 
+
 	@Before
 	public void setupBSTs() {
 		
@@ -120,6 +121,9 @@ public class BinarySearchTreeADTTests {
 		
 		
 	}
+	
+
+	
 
 
 		@Test

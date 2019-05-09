@@ -110,8 +110,16 @@ public class BinarySearchTreeADTImpl<T extends Comparable<? super T>> extends
 	 */
 	public void insert(Collection<T> elements) {
 		//	O todos o ninguno; si alguno es 'null', ni siquiera se comienza a insertar
-		//TODO Implementar el método
+		//TODO Implementar el metodo
 		
+		//for each para ver si es nul y si ni es null otro for echar que va a llamar al insert element
+		
+		if (elements == null) {
+			
+			throw new IllegalArgumentException("No se aceptan elementos nulos");
+			
+		}
+			
 	}
 
 	/**
@@ -125,7 +133,18 @@ public class BinarySearchTreeADTImpl<T extends Comparable<? super T>> extends
 		//	O todos o ninguno; si alguno es 'null', ni siquiera se comienza a insertar
 	    // TODO Implementar el método
 		
+		for (T t0 : elements) {
+			
+			if(t0 != null) {
+				
+				for (T t1 : elements) {
+					
+					insert(t1);
+				}
+			}
+		}
 	}
+	
 	
 	/**
 	 * Inserta de forma recursiva (como hoja) un nuevo elemento en el árbol de búsqueda.
@@ -138,9 +157,31 @@ public class BinarySearchTreeADTImpl<T extends Comparable<? super T>> extends
 	public void insert(T element) {
 		//	No se admiten null
 		if (element == null) {
+			
 			throw new IllegalArgumentException("No se aceptan elementos nulos");
+			
+		}else if(isEmpty()) {
+			
+			emptyBST(); //creamos un nodo vacío
+			
+			setContent(element);
+			setLeftBST(emptyBST());
+			setRightBST(emptyBST());
+			
+		}else { 
+			
+			if(this.content.equals(element) == false) {
+			
+					if(this.content.compareTo(element) < 0) { //bajamos por la derecha
+
+						getRightBST().insert(element);
+						
+					}else if(this.content.compareTo(element) > 0) { //bajamos por la izquierda
+						
+						getLeftBST().insert(element);
+					}
+			}
 		}
-		//	TODO Implementar el método
 	}
 	
 	
