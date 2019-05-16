@@ -110,16 +110,25 @@ public class BinarySearchTreeADTImpl<T extends Comparable<? super T>> extends
 	 */
 	public void insert(Collection<T> elements) {
 		//	O todos o ninguno; si alguno es 'null', ni siquiera se comienza a insertar
-		//TODO Implementar el metodo
 		
-		//for each para ver si es nul y si ni es null otro for echar que va a llamar al insert element
+		boolean isSomeoneNull = false;
 		
-		if (elements == null) {
+		for (T t : elements) {
 			
-			throw new IllegalArgumentException("No se aceptan elementos nulos");
-			
+			if(t == null) {
+				
+				isSomeoneNull = true;
+			}
 		}
+		
+		if(isSomeoneNull == false) {
 			
+			for (T t1 : elements) {
+				
+				insert(t1);
+			}
+		}
+		
 	}
 
 	/**
@@ -131,16 +140,23 @@ public class BinarySearchTreeADTImpl<T extends Comparable<? super T>> extends
 	 */
 	public void insert(T ... elements) {
 		//	O todos o ninguno; si alguno es 'null', ni siquiera se comienza a insertar
-	    // TODO Implementar el método
+		
+		boolean isSomeoneNull = false;
 		
 		for (T t0 : elements) {
 			
-			if(t0 != null) {
+			if(t0 == null) {
 				
-				for (T t1 : elements) {
-					
-					insert(t1);
-				}
+				isSomeoneNull = true;
+			
+			}
+		}
+		
+		if(isSomeoneNull == false) {
+			
+			for (T t1 : elements) {
+				
+				insert(t1);
 			}
 		}
 	}
@@ -156,11 +172,9 @@ public class BinarySearchTreeADTImpl<T extends Comparable<? super T>> extends
 	 */
 	public void insert(T element) {
 		//	No se admiten null
-		if (element == null) {
+		
 			
-			throw new IllegalArgumentException("No se aceptan elementos nulos");
-			
-		}else if(isEmpty()) {
+		if(isEmpty()) {
 			
 			emptyBST(); //creamos un nodo vacío
 			
@@ -199,8 +213,26 @@ public class BinarySearchTreeADTImpl<T extends Comparable<? super T>> extends
 	 */
 	public void withdraw(T ... elements) {
 	    //		O todos o ninguno; si alguno es 'null', no se eliminará ningún elemento
-	    // TODO Implementar el método
+		boolean isSomeoneNull = false;
+		
+		for (T t0 : elements) {
+			
+			if(t0 == null) {
+				
+				isSomeoneNull = true;
+			
+			}
+		}
+		
+		if(isSomeoneNull == false) {
+			
+			for (T t1 : elements) {
+				
+				withdraw(t1);
+			}
+		}
 	}
+	
 	
 	/**
 	 * Elimina un elemento del árbol.
@@ -209,7 +241,63 @@ public class BinarySearchTreeADTImpl<T extends Comparable<? super T>> extends
 	 */
 	public void withdraw(T element) {
 		// 	Si el elemento tiene dos hijos, se tomará el criterio de sustituir el elemento por el mayor de sus menores y eliminar el mayor de los menores.
-		// TODO Implementar el método
+		
+		
+		if(isEmpty() == false) {
+			
+			if(this.content.equals(element) == false) {
+				
+				if(this.content.compareTo(element) < 0) { //bajamos por la derecha
+
+					getRightBST().withdraw(element);
+					
+				}else if(this.content.compareTo(element) > 0) { //bajamos por la izquierda
+					
+					getLeftBST().withdraw(element);
+				}
+				
+			}else { //borramos el nodo pero hay tres casos
+				
+				if(isLeaf() == true) {
+					
+					this.setContent(null);
+					this.setLeftBST(null);
+					this.setRightBST(null);
+					
+				}else if((getLeftBST().isEmpty() == true && getRightBST().isEmpty() == false)) { //tiene un solo hijo a la derecha
+					
+					this.setContent(getRightBST().content);
+					
+					this.setLeftBST(this.getRightBST().getLeftBST());
+					this.setRightBST(this.getRightBST().getRightBST());
+					
+				}else if((getLeftBST().isEmpty() == false && getRightBST().isEmpty() == true)) { //tiene un solo hijo a la izquierda
+					
+					this.setContent(getLeftBST().content);
+					 
+					this.setRightBST(this.getLeftBST().getRightBST());
+					this.setLeftBST(this.getLeftBST().getLeftBST());
+					
+				}else { //si tiene 2 hijos
+					
+					BinarySearchTreeADTImpl<T> aux = this.getLeftBST();
+					
+					while(aux.getRightBST().isEmpty() == false) {
+						
+						aux = aux.getRightBST();
+					}
+					
+					this.content = aux.content;
+					this.getLeftBST().withdraw(aux.content);
+				}
+				
+				
+			}
+		
+		}else if ((isEmpty() == true)){
+			
+			throw new NoSuchElementException();
+		}
 	}
 	
 	/**

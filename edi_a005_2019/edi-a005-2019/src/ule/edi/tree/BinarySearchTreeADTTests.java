@@ -1,8 +1,11 @@
 package ule.edi.tree;
 
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -122,10 +125,155 @@ public class BinarySearchTreeADTTests {
 		
 	}
 	
-
+	@Test
+	public void testInsertElementsTrue() {
+		
+		TV1 = new BinarySearchTreeADTImpl<Integer>();
+		TV1.insert(10, 5, 7, 6, 19);
+		Assert.assertEquals("{10, {5, ∅, {7, {6, ∅, ∅}, ∅}}, {19, ∅, ∅}}", TV1.toString());
+		
+	}
 	
+	@Test
+	public void testInsertElementsFalse() {
+		
+		TV1 = new BinarySearchTreeADTImpl<Integer>();
+		TV1.insert(10, 5, 7, 6, null);
+		Assert.assertEquals("∅", TV1.toString());
+		
+	}
+	
+	
+	@Test
+	public void testInsertCollectionTrue() {
+	
+		Collection<Integer> a = new ArrayList<Integer>();
+		
+		a.add(10);
+		a.add(5);
+		a.add(15);
+		a.add(13);
+		
+		TE.insert(a);
+		Assert.assertEquals("{10, {5, ∅, ∅}, {15, {13, ∅, ∅}, ∅}}", TE.toString());
+	}
+	
+	@Test
+	public void testInsertCollectionFalse() {
+		
+		Collection<Integer> a = new ArrayList<Integer>();
+		
+		a.add(10);
+		a.add(5);
+		a.add(null);
+		a.add(13);
+		
+		TE.insert(a);
+		Assert.assertEquals("∅", TE.toString());
+	}
+	
+	@Test
+	public void testInsertElementEmpty() {
+		
+		TE.insert(10);
+	}
+	
+	@Test
+	public void testInsertElement() {
+		
+		T1234.insert(8);
+		Assert.assertEquals("{1, ∅, {2, ∅, {3, ∅, {4, ∅, {8, ∅, ∅}}}}}", T1234.toString());
+		
+		T1234.insert(6);
+		Assert.assertEquals("{1, ∅, {2, ∅, {3, ∅, {4, ∅, {8, {6, ∅, ∅}, ∅}}}}}", T1234.toString());
+		
+	}
+	
+	@Test
+	public void testInsertElementRepeated() {
+		
+		T1234.insert(2);
+		Assert.assertEquals("{1, ∅, {2, ∅, {3, ∅, {4, ∅, ∅}}}}", T1234.toString());
+	}
+	
+	
+	@Test(expected = NoSuchElementException.class)
+	public void testWithdrawElementEmpty() {
+		
+		TE.withdraw(10);
+	}
+	
+	@Test(expected = NoSuchElementException.class)
+	public void testWithdrawElementNotFound() {
+		
+		T1234.withdraw(5);
+	}
+	
+	@Test
+	public void testWithdrawElementIsLeaf() {
+		
+		T1234.withdraw(4);
+		Assert.assertEquals("{1, ∅, {2, ∅, {3, ∅, ∅}}}", T1234.toString());
+	}
+	
+	@Test
+	public void testWithdrawElementOneChildRight() {
+		
+		T1234.insert(5);
+		T1234.withdraw(3);
+		Assert.assertEquals("{1, ∅, {2, ∅, {4, ∅, {5, ∅, ∅}}}}", T1234.toString());
+		
+		TE.insert(10,5,13,7,6,8);
+		Assert.assertEquals("{10, {5, ∅, {7, {6, ∅, ∅}, {8, ∅, ∅}}}, {13, ∅, ∅}}", TE.toString());
+		
+		TE.withdraw(5);
+		Assert.assertEquals("{10, {7, {6, ∅, ∅}, {8, ∅, ∅}}, {13, ∅, ∅}}", TE.toString());
+	}
+	
+	@Test
+	public void testWithdrawElementOneChildLeft() {
+		
+		T4321.withdraw(1);
+		Assert.assertEquals("{4, {3, {2, ∅, ∅}, ∅}, ∅}", T4321.toString());
 
+		
+		TE.insert(10,9,13,8,7);
+		Assert.assertEquals("{10, {9, {8, {7, ∅, ∅}, ∅}, ∅}, {13, ∅, ∅}}", TE.toString());
+		
+		TE.withdraw(8);
+		Assert.assertEquals("{10, {9, {7, ∅, ∅}, ∅}, {13, ∅, ∅}}", TE.toString());
+	}
+	
+	@Test
+	public void testWithdrawElement2Child() {
+		
+		TE.insert(50,20,80,60,55,70,100);
+		Assert.assertEquals("{50, {20, ∅, ∅}, {80, {60, {55, ∅, ∅}, {70, ∅, ∅}}, {100, ∅, ∅}}}", TE.toString());
+		
+		TE.withdraw(80);
+		Assert.assertEquals("{50, {20, ∅, ∅}, {70, {60, {55, ∅, ∅}, ∅}, {100, ∅, ∅}}}", TE.toString());
 
+	}
+	
+	@Test
+	public void testWithdrawElements() {
+		
+		TV1 = new BinarySearchTreeADTImpl<Integer>();
+		TV1.insert(10, 5, 7, 6, 19);
+		Assert.assertEquals("{10, {5, ∅, {7, {6, ∅, ∅}, ∅}}, {19, ∅, ∅}}", TV1.toString());
+		
+		TV1.withdraw(10, 7, 19);
+		Assert.assertEquals("{6, {5, ∅, ∅}, ∅}", TV1.toString());
+	
+	}
+	
+	@Test
+	public void testWithdrawElementsNull() {
+		
+		
+	}
+
+	/*
 		@Test
 		public void testTagDescendTC4() {
 			List<String> lista= new LinkedList<String>();
@@ -135,7 +283,7 @@ public class BinarySearchTreeADTTests {
 			Assert.assertEquals("{50 [(descend, 4)], {20 [(descend, 6)], {10 [(descend, 7)], ∅, ∅}, {30 [(descend, 5)], ∅, ∅}}, {80 [(descend, 2)], {70 [(descend, 3)], ∅, ∅}, {90 [(descend, 1)], ∅, ∅}}}", TC3.toString());
 			
 		}
-	
+	*/
 	}
 
 
