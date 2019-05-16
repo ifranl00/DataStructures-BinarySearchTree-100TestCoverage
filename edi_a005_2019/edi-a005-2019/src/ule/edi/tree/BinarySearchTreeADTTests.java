@@ -270,9 +270,49 @@ public class BinarySearchTreeADTTests {
 	@Test
 	public void testWithdrawElementsNull() {
 		
+		TV1 = new BinarySearchTreeADTImpl<Integer>();
+		TV1.insert(10, 5, 7, 6, 19);
+		
+		TV1.withdraw(10, null, 5);
 		
 	}
+	
+	@Test
+	public void testWithdrawCollection() {
+		
+		Collection<Integer> a = new ArrayList<Integer>();
+		
+		a.add(10);
+		a.add(5);
+		a.add(15);
+		a.add(13);
+		
+		TE.insert(a);
+		
+		TE.withdraw(a);
+		Assert.assertEquals("∅", TE.toString());
+	}
+	
+	@Test
+	public void testWithdrawCollectionNull() {
+		
+		Collection<Integer> a = new ArrayList<Integer>();
+		
+		a.add(null);
+		a.add(65);
+		
+		TE.insert(a);
+		TE.withdraw(a);
+		Assert.assertEquals("∅", TE.toString());
+	}
 
+	
+	@Test
+	public void testGetSubtreeWithPathOk() {
+		
+		Assert.assertEquals(T1234, T1234.getSubtreeWithPath("111"));
+		
+	}
 	/*
 		@Test
 		public void testTagDescendTC4() {

@@ -205,7 +205,23 @@ public class BinarySearchTreeADTImpl<T extends Comparable<? super T>> extends
 	 */
 	public void withdraw(Collection<T> elements) {
         //		O todos o ninguno; si alguno es 'null', no se eliminará ningún elemento
-	    // TODO Implementar el método
+		boolean isSomeoneNull = false;
+		
+		for (T t : elements) {
+			
+			if(t == null) {
+				
+				isSomeoneNull = true;
+			}
+		}
+		
+		if(isSomeoneNull == false) {
+			
+			for (T t1 : elements) {
+				
+				withdraw(t1);
+			}
+		}
 	}
 
 	/**
