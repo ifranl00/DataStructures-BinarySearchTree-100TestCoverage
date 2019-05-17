@@ -316,6 +316,20 @@ public class BinarySearchTreeADTImpl<T extends Comparable<? super T>> extends
 		}
 	}
 	
+	private BinarySearchTreeADTImpl<T> getSubtreeWithPath1(BinarySearchTreeADTImpl<T> sub, char ref){
+		
+		if(ref == '1') {
+			
+			sub.insert(this.getRightBST().content);
+			
+		}else {
+			
+			sub.insert(this.getLeftBST().content);
+		}
+		
+		return sub;
+	}
+	
 	/**
 	 * Devuelve el sub-árbol indicado. (para tests)
 	 * path será el camino para obtener el sub-arbol. Está formado por 0 y 1.
@@ -334,10 +348,30 @@ public class BinarySearchTreeADTImpl<T extends Comparable<? super T>> extends
 	 * @throws NoSuchElementException si el subarbol no existe
 	 */
 	public BinarySearchTreeADTImpl<T> getSubtreeWithPath(String path) {
-		//TODO implementar el método
 		
-		return null;
+		BinarySearchTreeADTImpl<T> sub = new BinarySearchTreeADTImpl<>();
 		
+		if(isEmpty() == true) {
+			
+			throw new NoSuchElementException();
+			
+		}else {
+			int index = 0;
+			if(int index = 0; index < path.length(); index++){
+				
+				if(path.charAt(index) == '1') {
+					
+					sub = getSubtreeWithPath1(sub, '1');
+				
+				}else {
+					
+					sub = getSubtreeWithPath1(sub, '0');
+				}
+				
+				
+			}
+		}
+		return sub;
 	}	
 	
 	/**

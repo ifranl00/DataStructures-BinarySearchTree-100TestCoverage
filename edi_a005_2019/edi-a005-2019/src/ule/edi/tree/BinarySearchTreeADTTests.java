@@ -310,7 +310,7 @@ public class BinarySearchTreeADTTests {
 	@Test
 	public void testGetSubtreeWithPathOk() {
 		
-		Assert.assertEquals(T1234, T1234.getSubtreeWithPath("111"));
+		Assert.assertEquals("{2, ∅,{3, ∅, {4, ∅, ∅}}}", T1234.getSubtreeWithPath("111"));
 		
 	}
 	/*
