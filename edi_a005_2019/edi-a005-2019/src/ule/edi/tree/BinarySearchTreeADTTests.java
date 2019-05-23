@@ -124,7 +124,7 @@ public class BinarySearchTreeADTTests {
 		
 		
 	}
-	
+	/*
 	@Test
 	public void testInsertElementsTrue() {
 		
@@ -306,11 +306,11 @@ public class BinarySearchTreeADTTests {
 		Assert.assertEquals("∅", TE.toString());
 	}
 
-	
+	*/
 	@Test
 	public void testGetSubtreeWithPathOk() {
 		
-		Assert.assertEquals("{2, ∅,{3, ∅, {4, ∅, ∅}}}", T1234.getSubtreeWithPath("111"));
+		Assert.assertEquals("{4, ∅, ∅}", T1234.getSubtreeWithPath("111"));
 		
 	}
 	/*

@@ -316,18 +316,24 @@ public class BinarySearchTreeADTImpl<T extends Comparable<? super T>> extends
 		}
 	}
 	
-	private BinarySearchTreeADTImpl<T> getSubtreeWithPath1(BinarySearchTreeADTImpl<T> sub, char ref){
+	private BinarySearchTreeADTImpl<T> getSubtreeWithPathRec(String path, int index) {
+			
+			if(index < path.length() -1 && isEmpty() == false){
+			
+				if(path.charAt(index) == '1') {
+			
+					return this.getRightBST().getSubtreeWithPathRec(path, index++);
+				
+				}else {
+				
+					return this.getLeftBST().getSubtreeWithPathRec(path, index++);
+				}
+			
+			}else {
 		
-		if(ref == '1') {
-			
-			sub.insert(this.getRightBST().content);
-			
-		}else {
-			
-			sub.insert(this.getLeftBST().content);
+				return this;
 		}
 		
-		return sub;
 	}
 	
 	/**
@@ -349,30 +355,17 @@ public class BinarySearchTreeADTImpl<T extends Comparable<? super T>> extends
 	 */
 	public BinarySearchTreeADTImpl<T> getSubtreeWithPath(String path) {
 		
-		BinarySearchTreeADTImpl<T> sub = new BinarySearchTreeADTImpl<>();
-		
 		if(isEmpty() == true) {
 			
 			throw new NoSuchElementException();
 			
 		}else {
-			int index = 0;
-			if(int index = 0; index < path.length(); index++){
-				
-				if(path.charAt(index) == '1') {
-					
-					sub = getSubtreeWithPath1(sub, '1');
-				
-				}else {
-					
-					sub = getSubtreeWithPath1(sub, '0');
-				}
-				
-				
+			
+			return getSubtreeWithPathRec(path, 0);
+	
 			}
 		}
-		return sub;
-	}	
+		
 	
 	/**
 	 * Acumula en orden descendente, una lista con los pares 'padre-hijo' en este árbol.
