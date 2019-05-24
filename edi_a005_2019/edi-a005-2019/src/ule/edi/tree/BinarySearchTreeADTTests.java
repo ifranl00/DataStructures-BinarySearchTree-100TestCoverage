@@ -337,17 +337,17 @@ public class BinarySearchTreeADTTests {
 		
 	}
 	
-	/*
+	
 		@Test
 		public void testTagDescendTC4() {
 			List<String> lista= new LinkedList<String>();
 			TC3.parentChildPairsTagDescend(lista);
-			Assert.assertEquals(lista.toString(), "[(80, 90), (80, 70), (50, 80), (50, 20), (20, 30), (20, 10)]");
+			Assert.assertEquals("[(80, 90), (80, 70), (50, 80), (50, 20), (20, 30), (20, 10)]", lista.toString());
 			TC3.filterTags("descend");
 			Assert.assertEquals("{50 [(descend, 4)], {20 [(descend, 6)], {10 [(descend, 7)], ∅, ∅}, {30 [(descend, 5)], ∅, ∅}}, {80 [(descend, 2)], {70 [(descend, 3)], ∅, ∅}, {90 [(descend, 1)], ∅, ∅}}}", TC3.toString());
 			
 		}
-		*/
+		
 	
 	}
 

@@ -372,6 +372,14 @@ public class BinarySearchTreeADTImpl<T extends Comparable<? super T>> extends
 	
 			}
 		}
+	
+	public void parentChildPairsTagDescend(List<String> buffer) {
+		
+		int [] i = {0};
+			
+		parentChildPairsTagDescendRec(buffer, i);
+		
+	}
 		
 	
 	/**
@@ -386,6 +394,7 @@ public class BinarySearchTreeADTImpl<T extends Comparable<? super T>> extends
      * |  |  2
      * |  |  |  ∅
      * |  |  |  ∅
+     *
      * |  |  ∅
      * |  20
      * |  |  ∅
@@ -405,10 +414,33 @@ public class BinarySearchTreeADTImpl<T extends Comparable<? super T>> extends
 	 * 
 	 * @param buffer lista con el resultado.
 	 */
-	public void parentChildPairsTagDescend(List<String> buffer) {
-	
+	private void parentChildPairsTagDescendRec(List<String> buffer, int [] i) {
+			
+		if(isEmpty() == false) {
+			 //bajamos por la derecha mientras tenga hijo derecho
+
+				getRightBST().parentChildPairsTagDescendRec(buffer, i);
+				i[0]++;
+				this.setTag("descend", i[0]);
+				
+				if(this.getRightBST().isEmpty() != true) { //tiene un hijo por la izq
+					
+					buffer.add("("+this.content + ", " + this.getRightBST().content + ")");
+				}
+				
+				if(this.getLeftBST().isEmpty() != true) {
+					
+					buffer.add("(" + this.content + ", " + this.getLeftBST().content + ")");
 		
+				}
+			
+			//bajamos por la izquierda
+			
+			getLeftBST().parentChildPairsTagDescendRec(buffer,i);
+		
+		}
 	}
+	
 		
 	
 	
