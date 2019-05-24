@@ -318,21 +318,24 @@ public class BinarySearchTreeADTImpl<T extends Comparable<? super T>> extends
 	
 	private BinarySearchTreeADTImpl<T> getSubtreeWithPathRec(String path, int index) {
 			
-			if(index < path.length() -1 && isEmpty() == false){
+		if(isEmpty() == false) {
+			if(index < path.length()){
 			
 				if(path.charAt(index) == '1') {
 			
-					return this.getRightBST().getSubtreeWithPathRec(path, index++);
+					return this.getRightBST().getSubtreeWithPathRec(path, index+1);
 				
 				}else {
 				
-					return this.getLeftBST().getSubtreeWithPathRec(path, index++);
+					return this.getLeftBST().getSubtreeWithPathRec(path, index+1);
 				}
 			
-			}else {
-		
-				return this;
+			}
+		}else {
+			
+			throw new NoSuchElementException();
 		}
+		return this;
 		
 	}
 	
@@ -359,8 +362,12 @@ public class BinarySearchTreeADTImpl<T extends Comparable<? super T>> extends
 			
 			throw new NoSuchElementException();
 			
-		}else {
+		}else if(path == "" || path == null){
 			
+			return this;
+			
+		}else {
+		
 			return getSubtreeWithPathRec(path, 0);
 	
 			}
@@ -400,7 +407,7 @@ public class BinarySearchTreeADTImpl<T extends Comparable<? super T>> extends
 	 */
 	public void parentChildPairsTagDescend(List<String> buffer) {
 	
-		// TODO Implementar el método
+		
 	}
 		
 	

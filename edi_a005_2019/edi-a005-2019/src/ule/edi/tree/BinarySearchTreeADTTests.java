@@ -124,7 +124,7 @@ public class BinarySearchTreeADTTests {
 		
 		
 	}
-	/*
+	
 	@Test
 	public void testInsertElementsTrue() {
 		
@@ -306,13 +306,37 @@ public class BinarySearchTreeADTTests {
 		Assert.assertEquals("∅", TE.toString());
 	}
 
-	*/
+	
 	@Test
 	public void testGetSubtreeWithPathOk() {
 		
-		Assert.assertEquals("{4, ∅, ∅}", T1234.getSubtreeWithPath("111"));
+		Assert.assertEquals("{4, ∅, ∅}", T1234.getSubtreeWithPath("111").toString());
+		TE.insert(70,90,20,10,6,45);
+		Assert.assertEquals("{20, {10, {6, ∅, ∅}, ∅}, {45, ∅, ∅}}", TE.getSubtreeWithPath("0").toString());
+	}
+	
+	@Test(expected = NoSuchElementException.class)
+	public void testGetSubtreeWithPathNotFound() {
+		
+		TE.insert(70,90,20,10,6,45);
+		TE.getSubtreeWithPath("011");
+	
+	}
+	
+	@Test(expected = NoSuchElementException.class)
+	public void testGetSubtreeWithPathEmpty() {
+		
+		TE.getSubtreeWithPath("0");
+	}
+	
+	@Test
+	public void testGetSubtreeWithPathNull() {
+		
+		Assert.assertEquals("{1, ∅, {2, ∅, {3, ∅, {4, ∅, ∅}}}}", T1234.getSubtreeWithPath("").toString());
+		Assert.assertEquals("{1, ∅, {2, ∅, {3, ∅, {4, ∅, ∅}}}}", T1234.getSubtreeWithPath(null).toString());
 		
 	}
+	
 	/*
 		@Test
 		public void testTagDescendTC4() {
@@ -323,7 +347,8 @@ public class BinarySearchTreeADTTests {
 			Assert.assertEquals("{50 [(descend, 4)], {20 [(descend, 6)], {10 [(descend, 7)], ∅, ∅}, {30 [(descend, 5)], ∅, ∅}}, {80 [(descend, 2)], {70 [(descend, 3)], ∅, ∅}, {90 [(descend, 1)], ∅, ∅}}}", TC3.toString());
 			
 		}
-	*/
+		*/
+	
 	}
 
 
