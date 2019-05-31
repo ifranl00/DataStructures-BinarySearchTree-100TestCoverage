@@ -347,6 +347,63 @@ public class BinarySearchTreeADTTests {
 			Assert.assertEquals("{50 [(descend, 4)], {20 [(descend, 6)], {10 [(descend, 7)], ∅, ∅}, {30 [(descend, 5)], ∅, ∅}}, {80 [(descend, 2)], {70 [(descend, 3)], ∅, ∅}, {90 [(descend, 1)], ∅, ∅}}}", TC3.toString());
 			
 		}
+	
+		@Test
+		public void testTagWidthOk() {
+			
+			TE.insert(50,30,10,40,80,60);
+			TE.tagWidth();
+			Assert.assertEquals("{50 [(width, 1)], {30 [(width, 2)], {10 [(width, 4)], ∅, ∅}, {40 [(width, 5)], ∅, ∅}}, {80 [(width, 3)], {60 [(width, 6)], ∅, ∅}, ∅}}", TE.toString());
+			
+		}
+		
+		@Test
+		public void testTagWidthEmpty() {
+			
+			TE.tagWidth();
+			Assert.assertEquals("∅", TE.toString());
+
+		}
+		
+		@Test
+		public void testIsPathFalseEmpty() {
+			
+			List<Integer> bts = new ArrayList<Integer>();
+			bts.add(50);
+			bts.add(30);
+			
+			Assert.assertFalse(TE.isPathIn(bts));
+		}
+		
+		
+		@Test
+		public void testIsPathFalse() {
+			
+			List<Integer> bts = new ArrayList<Integer>();
+			bts.add(50);
+			bts.add(40);
+			
+			TE.insert(50,30,10,40,80,60);
+			
+			Assert.assertFalse(TE.isPathIn(bts));
+			Assert.assertEquals("{50, {30, {10, ∅, ∅}, {40, ∅, ∅}}, {80, {60, ∅, ∅}, ∅}}", TE.toString());
+
+		}
+	
+		@Test
+		public void testIsPathTrue() {
+			
+			List<Integer> bts = new ArrayList<Integer>();
+			bts.add(50);
+			bts.add(30);
+			bts.add(40);
+			
+			TE.insert(50,30,10,40,80,60);
+			
+			Assert.assertTrue(TE.isPathIn(bts));
+			Assert.assertEquals("{50 [(path, 1)], {30 [(path, 2)], {10, ∅, ∅}, {40 [(path, 3)], ∅, ∅}}, {80, {60, ∅, ∅}, ∅}}", TE.toString());
+
+		}
 		
 	
 	}

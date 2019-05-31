@@ -3,9 +3,12 @@ package ule.edi.tree;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Stack;
+
+import jdk.nashorn.internal.ir.BinaryNode;
 
 /**
  * Árbol binario de búsqueda (binary search tree, BST).
@@ -461,21 +464,71 @@ public class BinarySearchTreeADTImpl<T extends Comparable<? super T>> extends
 	 * 
 	 * {50 [(path, 1)], {30 [(path, 2)], {10 [(path, 3)], ∅, ∅}, {40, ∅, ∅}}, {80, {60, ∅, ∅}, ∅}}
 	 * 
-	 * Para el mismo árbol, si path es [50, 40]  devolvería true y el árbol quedaría así etiquetado:
+	 * Para el mismo árbol, si path es [50, 40]  devolvería false y el árbol no quedaría así etiquetado:
 	 * {50 [(path, 1)], {30, {10, ∅, ∅}, {40 [(path, 2)], ∅, ∅}}, {80, {60, ∅, ∅}, ∅}}
 	 * 
-	 * Para el mismo árbol, si path es [50, 80]  devolvería false y el árbol no se etiqueta:
+	 * Para el mismo árbol, si path es [50, 80]  devolvería true y el árbol  se etiqueta:
 	 * {50, {30, {10, ∅, ∅}, {40, ∅, ∅}}, {80, {60, ∅, ∅}, ∅}}
 	 * 
 	 * 
 	 * @return  true si los elementos de la lista coinciden con algún camino desde la raiz,  falso si no es así
 	 */
+	
+	private boolean isPathInRec(List<T> path, int index, int countTag) {
+		
+		boolean isPath = false;
+		
+		if(index < path.size()) {
+			
+			if(path.get(index).equals(this.content) == true && index+1 < path.size()) {
+				
+				 //si hay mas elementos que mirar
+				countTag++;
+				
+					if(path.get(index+1).compareTo(this.content) > 0) { //miramos cual es el siguiente para bajar por la izq o por la derch
+						
+						isPath = this.getRightBST().isPathInRec(path,index+1,countTag);
+						
+		
+					}else if(path.get(index+1).compareTo(this.content) < 0) {
+						
+						isPath = this.getLeftBST().isPathInRec(path, index+1,countTag);
+					}
+					
+					
+			}else if(path.get(index).equals(this.content) == true && index+1 >= path.size()) {
+				countTag++;
+				isPath = true;
+				
+			}else { //se ha encontrado un elemento diferente en el camino
+				
+				isPath = false;
+			}
+		}
+		
+		if(isPath == true) {
+			
+			this.setTag("path", countTag);
+		}
+		
+		return isPath;
+
+	}
+	
+	
 	public boolean isPathIn(List<T> path) {
-		//	TODO Implementar método
-		return false;
+		
+		if(isEmpty() == true) {
+			
+			return false;
+			
+		}else {
+			
+			return isPathInRec(path, 0,0);
+		}
+		
 	}
 
-	
 	/**
 	 * 
 	 * Etiqueta cada nodo con su posición en el recorrido en anchura, con la etiqueta "width"
@@ -493,7 +546,38 @@ public class BinarySearchTreeADTImpl<T extends Comparable<? super T>> extends
 
 	 */	
 	public void tagWidth(){
-		//	TODO Implementar método
+		
+		if(isEmpty() == false ) {
+			
+			LinkedList<BinarySearchTreeADTImpl<T>> nodeQueue = new LinkedList<BinarySearchTreeADTImpl<T>>();
+	
+			nodeQueue.add(this);//encolamos la raiz en la cola
+			int pos = 1;
+			
+			while(nodeQueue.isEmpty() == false) {
+				
+				
+					
+					BinarySearchTreeADTImpl<T> elem = nodeQueue.get(0);
+					
+					nodeQueue.remove(0);
+					elem.setTag("width", pos);
+					pos++;
+					
+					if(elem.getLeftBST().isEmpty() != true) {
+						
+						nodeQueue.add(elem.getLeftBST());
+					}
+					
+					if(elem.getRightBST().isEmpty() != true) {
+						
+						nodeQueue.add(elem.getRightBST());
+					}
+				
+			}
+			
+			
+		}
 	}
 	
 	
@@ -512,6 +596,7 @@ public class BinarySearchTreeADTImpl<T extends Comparable<? super T>> extends
 	 */
 	public Iterator<T> iteratorInorden() {
 		//	TODO Implementar método
+		
 		return null;
 	}	
 	
