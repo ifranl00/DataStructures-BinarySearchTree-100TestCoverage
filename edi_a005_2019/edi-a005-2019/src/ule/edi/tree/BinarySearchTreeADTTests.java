@@ -3,6 +3,7 @@ package ule.edi.tree;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -405,6 +406,43 @@ public class BinarySearchTreeADTTests {
 
 		}
 		
+		 @Test
+			public void testInorderIterator() {
+			 	TE.insert(50,30,40,10,80,60);
+			 	
+				Iterator<Integer> i = TE.iteratorInorden();
+				Assert.assertTrue(i.hasNext());
+				Assert.assertEquals("10",i.next().toString());
+				Assert.assertTrue(i.hasNext());
+				Assert.assertEquals("30",i.next().toString());
+				Assert.assertTrue(i.hasNext());
+				Assert.assertEquals("40",i.next().toString());
+				Assert.assertTrue(i.hasNext());
+				Assert.assertEquals("50",i.next().toString());
+				Assert.assertTrue(i.hasNext());
+				Assert.assertEquals("60",i.next().toString());
+				Assert.assertTrue(i.hasNext());
+				Assert.assertEquals("80",i.next().toString());
+				Assert.assertFalse(i.hasNext());
+			  
+		   }
+		  
+		   @Test(expected = NoSuchElementException.class)
+			public void testInorderIteratorException() {
+				Iterator<Integer> i = TE.iteratorInorden();
+				Assert.assertFalse(i.hasNext());
+				i.next();
+			}
+		   
+		   
+		   @Test(expected = UnsupportedOperationException.class)
+			public void testForwardItRemove() {
+				
+				TE.insert(20,30,39,37);
+				Iterator<Integer> i = TE.iteratorInorden();
+				i.remove();
+			}
+		   
 	
 	}
 

@@ -566,12 +566,12 @@ public class BinarySearchTreeADTImpl<T extends Comparable<? super T>> extends
 					
 					if(elem.getLeftBST().isEmpty() != true) {
 						
-						nodeQueue.add(elem.getLeftBST());
+						nodeQueue.addLast(elem.getLeftBST());
 					}
 					
 					if(elem.getRightBST().isEmpty() != true) {
 						
-						nodeQueue.add(elem.getRightBST());
+						nodeQueue.addLast(elem.getRightBST());
 					}
 				
 			}
@@ -590,14 +590,84 @@ public class BinarySearchTreeADTImpl<T extends Comparable<? super T>> extends
 	 * 
 	 * y devolvería el iterador que recorrería los ndos en el orden: 10, 30, 40, 50, 60, 80
 	 * 
-	 * 		
+	 *rama izq raiz y derech
 	 * 
 	 * @return iterador para el recorrido inorden o ascendente
 	 */
-	public Iterator<T> iteratorInorden() {
-		//	TODO Implementar método
+	
+	private class IteratorInorden implements Iterator<T> {
 		
-		return null;
+		private BinarySearchTreeADTImpl<T> actual;
+		Stack<BinarySearchTreeADTImpl<T>> nodesList;
+		
+		public IteratorInorden(BinarySearchTreeADTImpl<T> raiz) {
+			
+			actual = raiz;
+			nodesList = new Stack<BinarySearchTreeADTImpl<T>>();
+			
+			while(actual.isEmpty() == false) {
+				
+				nodesList.push(actual);
+				actual = actual.getLeftBST();
+			}
+			
+		}
+		
+		@Override
+		public boolean hasNext() {
+			
+			boolean hasNext = false;
+			
+			if(nodesList.isEmpty() == false) {
+				
+				hasNext = true;
+			}
+			
+			return hasNext;
+		}
+		
+		@Override
+		public T next() {
+			
+			T e = null;
+			
+			if(hasNext() == false) {
+				
+				throw new NoSuchElementException();
+				
+			}else {
+				
+				BinarySearchTreeADTImpl<T> aux = nodesList.pop();
+				e = aux.content;
+				
+				if(aux.getRightBST().isEmpty() == false) {
+					
+					aux = aux.getRightBST();
+					
+					while(aux.isEmpty() == false) {
+						
+						nodesList.push(aux);
+						aux = aux.getLeftBST();
+					}
+				}
+			}
+			return e;
+		}
+		
+		@Override  
+		public void remove() {
+			
+			throw new UnsupportedOperationException();
+		}
+		       
+		
+	};
+	
+	
+	
+	public Iterator<T> iteratorInorden() {
+		
+		return new IteratorInorden(this);
 	}	
 	
 }
